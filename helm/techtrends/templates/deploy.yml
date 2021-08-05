@@ -20,34 +20,6 @@ spec:
     spec:
       containers:
       - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
-
-techtrends-staging
-3 minutes
-Service
-svc
-techtrends
-13 minutes
-Deployment
-deploy
-techtrends
-13 minutesRev:2
-Pod
-pod
-techtrends-54d444f688-mdhpm
-11 minutesCrashLoopBackOff0/16
-Pod
-pod
-techtrends-686f4cbff7-bnqts
-13 minutesImagePullBackOff0/1
-Pod
-pod
-techtrends-686f4cbff7-nqtjj
-13 minutesImagePullBackOff0/1
-Pod
-pod
-techtrends-686f4cbff7-x4tv5
-13 minutesImagePullBackOff0/1
-clear filters to show 5 additional resources
         name: techtrends
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
