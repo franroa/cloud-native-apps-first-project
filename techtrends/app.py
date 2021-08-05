@@ -1,5 +1,6 @@
 import sqlite3
 import logging
+from sqlite3 import OperationalError
 
 from flask import Flask, jsonify, json, render_template, request, url_for, redirect, flash
 from werkzeug.exceptions import abort
@@ -84,14 +85,24 @@ def create():
 
 @app.route('/healthz')
 def healthcheck():
-    response = app.response_class(
-        response=json.dumps({"result": "OK - healthy"}),
-        status=200,
-        mimetype='application/json'
-    )
-
-    # app.logger.info('Status request successfull')
-    return response
+    try:
+        connection = get_db_connection()
+        connection.execute('SELECT * FROM posts WHERE id = ?',
+                                  (1,)).fetchall()
+        connection.close()
+        response = app.response_class(
+            response=json.dumps({"result": 200}),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
+    except sqlite3.OperationalError:
+        response = app.response_class(
+            response=json.dumps({"error": "unhealthy"}),
+            status=500,
+            mimetype='application/json'
+        )
+        return response
 
 
 @app.route('/metrics')
