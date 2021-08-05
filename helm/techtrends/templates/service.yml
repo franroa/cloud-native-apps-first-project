@@ -5,7 +5,7 @@ metadata:
   labels:
     app: techtrends
   name: techtrends
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Values.namespace.name }}
 spec:
   ports:
   - name: 4111-3111
