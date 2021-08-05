@@ -1,7 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: techtrends-staging
+  name: techtrends-prod
+  namespace: argocd
 spec:
   destination:
     namespace: default
@@ -9,21 +10,10 @@ spec:
   project: default
   source:
     helm:
-#      repoURL: https://github.com/franroa/cloud-native-apps-first-project
-#      chart: helm/techtrends
-#      chartVersion: "1.0.0"
-#      valueFiles: [ 'values-staging.yaml' ]
-#      parameters:
-#        - name: build.enabled
-#            value: "false"
-#        - name: deploy.route.tls.enabled
-#          value: "true"
-#        - name: image.name
-#            value: quay.io/ablock/gitops-helm-quarkus
+      valueFiles: [ 'values-staging.yaml' ]
     path: helm/techtrends
     repoURL: https://github.com/franroa/cloud-native-apps-first-project
     targetRevision: HEAD
-  # Sync policy
   syncPolicy:
     automated:
       prune: true
