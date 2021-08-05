@@ -79,7 +79,7 @@ def create():
     return render_template('create.html')
 
 
-@app.route('/status')
+@app.route('/healthz')
 def healthcheck():
     response = app.response_class(
         response=json.dumps({"result": "OK - healthy"}),
