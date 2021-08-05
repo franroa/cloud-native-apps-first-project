@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: udacity-app
+  namespace: argocd
+spec:
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    helm:
+#      parameters:
+#        - name: build.enabled
+#            value: "false"
+#        - name: deploy.route.tls.enabled
+#          value: "true"
+#        - name: image.name
+#            value: quay.io/ablock/gitops-helm-quarkus
+#    chart: techtrends TODO this us used for zipped charts?
+    path: helm/techtrends
+    repoURL: https://github.com/franroa/cloud-native-apps-first-project
+    targetRevision: HEAD
+  # Sync policy
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
