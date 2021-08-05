@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: udacity-app
+  name: techtrends-prod
   namespace: argocd
 spec:
   destination:
@@ -11,18 +11,9 @@ spec:
   source:
     helm:
       valueFiles: [ 'values-prod.yaml' ]
-#      parameters:
-#        - name: build.enabled
-#            value: "false"
-#        - name: deploy.route.tls.enabled
-#          value: "true"
-#        - name: image.name
-#            value: quay.io/ablock/gitops-helm-quarkus
-#    chart: techtrends TODO this us used for zipped charts?
     path: helm/techtrends
     repoURL: https://github.com/franroa/cloud-native-apps-first-project
     targetRevision: HEAD
-  # Sync policy
   syncPolicy:
     automated:
       prune: true
