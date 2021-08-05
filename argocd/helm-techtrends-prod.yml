@@ -10,6 +10,7 @@ spec:
   project: default
   source:
     helm:
+      valueFiles: [ 'values-prod.yaml' ]
 #      parameters:
 #        - name: build.enabled
 #            value: "false"

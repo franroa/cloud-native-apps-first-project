@@ -12,7 +12,7 @@ spec:
 #      repoURL: https://github.com/franroa/cloud-native-apps-first-project
 #      chart: helm/techtrends
 #      chartVersion: "1.0.0"
-      valueFiles: [ 'values-staging.yaml' ]
+#      valueFiles: [ 'values-staging.yaml' ]
 #      parameters:
 #        - name: build.enabled
 #            value: "false"
