@@ -17,8 +17,14 @@ spec:
 #          value: "true"
 #        - name: image.name
 #            value: quay.io/ablock/gitops-helm-quarkus
-    chart: helm
+#    chart: techtrends TODO this us used for zipped charts?
+    path: helm/techtrends
     repoURL: https://github.com/franroa/cloud-native-apps-first-project
     targetRevision: HEAD
   # Sync policy
-  syncPolicy: {}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
