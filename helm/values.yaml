@@ -15,7 +15,7 @@ image:
   pullPolicy: IfNotPresent
 
 replicaCount: 1
-containerPort:
+containerPort: 3111
 
 resources:
   requests:
@@ -25,8 +25,13 @@ resources:
     memory: 128Mi
     cpu: 500m
 
-containerPort: 3111
-
-livenessProbePath: /healthz
-
-readinessProbePath: /healthz
+livenessProbe:
+  initialDelaySeconds: 10s
+  periodSeconds: 5s
+  path: /healthz
+  port: 3111
+readinessProbe:
+  initialDelaySeconds: 10s
+  periodSeconds: 5s
+  path: /healthz
+  port: 3111

@@ -1,7 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
     app: {{ .Values.AppName }}
   name: {{ .Values.AppName }}
@@ -14,7 +13,6 @@ spec:
   strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: {{ .Values.AppName }}
     spec:
@@ -35,11 +33,11 @@ spec:
           httpGet:
             path: {{ .Values.readinessProbe.path }}
             port: {{ .Values.readinessProbe.port }}
-          initialDelaySeconds: {{ .Values.initialDelaySeconds }}
-          periodSeconds: {{ .Values.periodSeconds }}
+          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
         livenessProbe:
           httpGet:
             path: {{ .Values.readinessProbe.path }}
             port: {{ .Values.readinessProbe.port }}
-          initialDelaySeconds: {{ .Values.initialDelaySeconds }}
-          periodSeconds: {{ .Values.periodSeconds }}
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}

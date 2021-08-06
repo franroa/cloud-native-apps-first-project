@@ -1,13 +1,21 @@
 namespace:
   name: prod
 
+AppName: techtrends
+
 service:
   port: 7111
-
-replicaCount: 5
+  targetPort: 3111
+  protocol: TCP
+  type: ClusterIP
 
 image:
-  pullPolicy: Always
+  repository: franroa/techtrends
+  tag: latest
+  pullPolicy: IfNotPresent
+
+replicaCount: 5
+containerPort: 3111
 
 resources:
   requests:
@@ -16,3 +24,14 @@ resources:
   limits:
     memory: 256Mi
     cpu: 500m
+
+livenessProbe:
+  initialDelaySeconds: 10s
+  periodSeconds: 5s
+  path: /healthz
+  port: 3111
+readinessProbe:
+  initialDelaySeconds: 10s
+  periodSeconds: 5s
+  path: /healthz
+  port: 3111

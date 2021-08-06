@@ -1,10 +1,21 @@
 namespace:
   name: staging
 
+AppName: techtrends
+
 service:
   port: 5111
+  targetPort: 3111
+  protocol: TCP
+  type: ClusterIP
+
+image:
+  repository: franroa/techtrends
+  tag: latest
+  pullPolicy: IfNotPresent
 
 replicaCount: 3
+containerPort: 3111
 
 resources:
   requests:
@@ -13,3 +24,14 @@ resources:
   limits:
     memory: 128Mi
     cpu: 500m
+
+livenessProbe:
+  initialDelaySeconds: 10s
+  periodSeconds: 5s
+  path: /healthz
+  port: 3111
+readinessProbe:
+  initialDelaySeconds: 10s
+  periodSeconds: 5s
+  path: /healthz
+  port: 3111
