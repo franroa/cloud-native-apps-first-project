@@ -48,7 +48,7 @@ def index():
 def post(post_id):
     post = get_post(post_id)
     if post is None:
-        app.logger.debug('Post with id {} not found'.format(post_id))
+        app.logger.error('Post with id {} not found'.format(post_id))
         return render_template('404.html'), 404
     else:
         app.logger.debug('Getting post with title: {}'.format(post[2]))

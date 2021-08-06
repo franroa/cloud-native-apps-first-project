@@ -12,7 +12,7 @@ service:
 image:
   repository: franroa/techtrends
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 replicaCount: 5
 containerPort: 3111
