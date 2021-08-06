@@ -18,8 +18,10 @@ spec:
       labels:
         app: techtrends
     spec:
+      imagePullSecrets:
+          - name: docker-secret
       containers:
-      - image: techtrends:latest
+      - image: franroa/techtrends:latest
         name: techtrends
         ports:
         - containerPort: 3111
