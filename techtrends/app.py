@@ -143,6 +143,6 @@ if __name__ == "__main__":
 
     handlers = [stderr_handler, stdout_handler]
     # format output
-    format_output = '%(name)s - %(levelname)s - %(message)s'
+    format_output = '%(asctime)s - %(message)s - %(levelname)s(%(name)s)'
     logging.basicConfig(format=format_output, level=loglevel, handlers=handlers)
     app.run(host='0.0.0.0', port='3111')
