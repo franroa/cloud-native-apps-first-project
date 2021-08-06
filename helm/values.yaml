@@ -1,6 +1,8 @@
 namespace:
   name: sandbox
 
+AppName: techtrends
+
 service:
   port: 4111
   targetPort: 3111
@@ -13,6 +15,7 @@ image:
   pullPolicy: IfNotPresent
 
 replicaCount: 1
+containerPort:
 
 resources:
   requests:

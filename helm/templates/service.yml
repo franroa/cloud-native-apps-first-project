@@ -3,15 +3,15 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    app: techtrends
-  name: techtrends
+    app: {{ .Values.AppName }}
+  name: {{ .Values.AppName }}
   namespace: {{ .Values.namespace.name }}
 spec:
   ports:
   - name: techtrends-port
     port: {{ .Values.service.port }}
-    protocol: TCP
+    protocol: {{ .Values.service.protocol }}
     targetPort: {{ .Values.service.targetPort }}
   selector:
-    app: techtrends
+    app: {{ .Values.AppName }}
   type: {{ .Values.service.type }}
