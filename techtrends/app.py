@@ -1,9 +1,14 @@
+# import logging
+import logging
+import sys
+import os
 import sqlite3
 
 from flask import Flask, json, render_template, request, url_for, redirect, flash
 
-
 conn_counter = 0
+
+
 # Function to get a database connection.
 # This function connects to database with the name `database.db`
 def get_db_connection():
@@ -43,10 +48,10 @@ def index():
 def post(post_id):
     post = get_post(post_id)
     if post is None:
-        app.logger.debug('Post with id ' + str(post_id) + ' not found')
+        app.logger.debug('Post with id {} not found'.format(post_id))
         return render_template('404.html'), 404
     else:
-        app.logger.debug('Getting post with title: ' + post[2])
+        app.logger.debug('Getting post with title: {}'.format(post[2]))
         return render_template('post.html', post=post)
 
 
@@ -73,7 +78,7 @@ def create():
             connection.commit()
             connection.close()
 
-            app.logger.debug('Article ' + title + ' was created')
+            app.logger.debug('Article {} was created'.format(title))
 
             return redirect(url_for('index'))
 
@@ -94,6 +99,7 @@ def healthcheck():
         )
         return response
     except sqlite3.OperationalError:
+        app.logger.exception('No table found in the database')
         response = app.response_class(
             response=json.dumps({"error": "unhealthy"}),
             status=500,
@@ -109,7 +115,8 @@ def metrics():
     connection.close()
 
     response = app.response_class(
-        response=json.dumps({"status": "success", "code": 0, "data": {"db_connection_count": conn_counter, "post_count": len(posts)}}),
+        response=json.dumps(
+            {"status": "success", "code": 0, "data": {"db_connection_count": conn_counter, "post_count": len(posts)}}),
         status=200,
         mimetype='application/json'
     )
@@ -120,4 +127,22 @@ def metrics():
 
 # start the application on port 3111
 if __name__ == "__main__":
+    loglevel = os.getenv("LOGLEVEL", "DEBUG").upper()
+    loglevel = (
+        getattr(logging, loglevel)
+        if loglevel in ["CRITICAL", "DEBUG", "ERROR", "INFO", "WARNING", ]
+        else logging.DEBUG
+    )
+    # Set logger to handle STDOUT and STDERR
+
+    stdout_handler = logging.StreamHandler(sys.stdout)
+    stdout_handler.setLevel(logging.DEBUG)
+
+    stderr_handler = logging.StreamHandler(sys.stderr)
+    stderr_handler.setLevel(logging.ERROR)
+
+    handlers = [stderr_handler, stdout_handler]
+    # format output
+    format_output = '%(name)s - %(levelname)s - %(message)s'
+    logging.basicConfig(format=format_output, level=loglevel, handlers=handlers)
     app.run(host='0.0.0.0', port='3111')
