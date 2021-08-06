@@ -1,9 +1,6 @@
 import sqlite3
-import logging
-from sqlite3 import OperationalError
 
-from flask import Flask, jsonify, json, render_template, request, url_for, redirect, flash
-from werkzeug.exceptions import abort
+from flask import Flask, json, render_template, request, url_for, redirect, flash
 
 
 conn_counter = 0
@@ -46,17 +43,17 @@ def index():
 def post(post_id):
     post = get_post(post_id)
     if post is None:
-        app.logger.info('Post with id ' + str(post_id) + ' not found')
+        app.logger.debug('Post with id ' + str(post_id) + ' not found')
         return render_template('404.html'), 404
     else:
-        app.logger.info('Getting post with title: ' + post[2])
+        app.logger.debug('Getting post with title: ' + post[2])
         return render_template('post.html', post=post)
 
 
 # Define the About Us page
 @app.route('/about')
 def about():
-    app.logger.info('Retrieving "About Us" page')
+    app.logger.debug('Retrieving "About Us" page')
     return render_template('about.html')
 
 
@@ -76,7 +73,7 @@ def create():
             connection.commit()
             connection.close()
 
-            app.logger.info('Article ' + title + ' was created')
+            app.logger.debug('Article ' + title + ' was created')
 
             return redirect(url_for('index'))
 
@@ -88,7 +85,7 @@ def healthcheck():
     try:
         connection = get_db_connection()
         connection.execute('SELECT * FROM posts WHERE id = ?',
-                                  (1,)).fetchall()
+                           (1,)).fetchall()
         connection.close()
         response = app.response_class(
             response=json.dumps({"result": 200}),
@@ -123,5 +120,4 @@ def metrics():
 
 # start the application on port 3111
 if __name__ == "__main__":
-    logging.basicConfig(filename='app.log', level=logging.DEBUG)
     app.run(host='0.0.0.0', port='3111')

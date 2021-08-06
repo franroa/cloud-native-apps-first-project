@@ -2,15 +2,21 @@
 docker build -t techtrends .
 
 ## Docker commands used to run the application
-docker run -p 7111:3111 -d --name techtrends techtrends
+docker run -p 7111:3111 -d --name techtrends -e FLASK_ENV=development techtrends
 
 ## Docker commands used to get the application logs
-docker logs techtrends
+docker logs -f techtrends
 
 ## Logs from the container running the TechTrends application
  * Serving Flask app "app" (lazy loading)
- * Environment: production
-   WARNING: This is a development server. Do not use it in a production deployment.
-   Use a production WSGI server instead.
- * Debug mode: off
+ * Environment: development
+ * Debug mode: on
+ * Running on http://0.0.0.0:3111/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 293-580-067
+[2021-08-06 07:36:44,483] DEBUG in app: Retrieving "About Us" page
+172.17.0.1 - - [06/Aug/2021 07:36:44] "GET /about HTTP/1.1" 200 -
+172.17.0.1 - - [06/Aug/2021 07:36:44] "GET /static/css/main.css HTTP/1.1" 200 -
+172.17.0.1 - - [06/Aug/2021 07:36:44] "GET /favicon.ico HTTP/1.1" 404 -
 
